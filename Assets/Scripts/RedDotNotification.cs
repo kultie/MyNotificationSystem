@@ -1,4 +1,3 @@
-using Sirenix.OdinInspector;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -20,13 +19,11 @@ namespace Kultie.Notification
             }
         }
 
-        [Button]
         public void SetTrigger(string key, int value)
         {
             system.Set(key, value);
         }
 
-        [Button]
         public void TestLoad()
         {
             system.LoadData();
