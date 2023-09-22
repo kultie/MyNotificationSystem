@@ -1,22 +1,35 @@
+using Sirenix.OdinInspector;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+
 namespace Kultie.Notification
 {
     public class RedDotNotification : MonoBehaviour
     {
         public List<string> RedDotKey;
         private static RedDotSystem system;
-        public static RedDotSystem System => system;
+        [SerializeReference] private RedDotSystem.ISave _saveService;
+
         private void Awake()
         {
-            for (int i = 0; i < RedDotKey.Count; i++) {
-                RedDotKey[i] = RedDotKey[i].Insert(0, "Root/");
+            if (system == null)
+            {
+                var keys = new List<string>(RedDotKey);
+                system = new RedDotSystem(keys.ToArray(), _saveService);
             }
-            var _keys = new List<string>(RedDotKey);
-            _keys.Insert(0, "Root");
-            system = new RedDotSystem(_keys.ToArray());
         }
 
+        [Button]
+        public void SetTrigger(string key, int value)
+        {
+            system.Set(key, value);
+        }
+
+        [Button]
+        public void TestLoad()
+        {
+            system.LoadData();
+        }
     }
 }

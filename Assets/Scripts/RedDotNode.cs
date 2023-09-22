@@ -1,3 +1,4 @@
+using Newtonsoft.Json.Linq;
 using System.Collections.Generic;
 using UnityEngine;
 namespace Kultie.Notification
@@ -47,6 +48,18 @@ namespace Kultie.Notification
             NotifyRedDotCountChange();
 
             parent?.CheckRedDotCount();
+        }
+
+        public JObject GetData()
+        {
+            JObject result = new JObject();
+
+            result["value"] = rdCount;
+            foreach (var kv in rdChildrenDic)
+            {
+                result[kv.Key] = kv.Value.GetData();
+            }
+            return result;
         }
 
         #endregion
